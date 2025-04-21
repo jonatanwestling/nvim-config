@@ -113,7 +113,45 @@ return {
 
     local function find_command()
       if 1 == vim.fn.executable("rg") then
-        return { "rg", "--files", "--color", "never", "-g", "!.git" }
+        return {
+          "rg",
+          "--files",
+          "--color",
+          "never",
+          --files and folders to ignore
+          "-g",
+          "!.git/",
+          "-g",
+          "!node_modules/",
+          "-g",
+          "!vendor/",
+          "-g",
+          "!target/",
+          "-g",
+          "!dist/",
+          "-g",
+          "!build/",
+          "-g",
+          "!*.{jpg,jpeg,png,gif,bmp,pdf}",
+          "-g",
+          "!*.{mp3,mp4,wav,mov,avi}",
+          "-g",
+          "!*.{zip,tar,gz,rar}",
+          "-g",
+          "!*.{o,obj,exe,dll,so,pyc,class,jar}",
+          "-g",
+          "!*.{swp,swo,bak,tmp,log}",
+          "-g",
+          "!__pycache__/",
+          "-g",
+          "!.DS_Store",
+          "-g",
+          "!Library/",
+          "-g",
+          "!Applications/",
+          "-g",
+          "!.cache/",
+        }
       elseif 1 == vim.fn.executable("fd") then
         return { "fd", "--type", "f", "--color", "never", "-E", ".git" }
       elseif 1 == vim.fn.executable("fdfind") then
@@ -129,11 +167,11 @@ return {
       defaults = {
         prompt_prefix = " ",
         selection_caret = " ",
+        layout_strategy = "vertical", -- Explicitly set the layout strategy
         layout_config = {
-          horizontal = {
-            prompt_position = "top",
-            preview_width = 0.3,
-          },
+          preview_height = 0.4, -- Adjust preview height for vertical layout
+          width = 0.8, -- Optional: Set the width of the entire picker
+          height = 0.9, -- Optional: Set the height of the entire picker
         }, -- open files in the first window that is an actual file.
         -- use the current window if no other window is available.
         get_selection_window = function()
