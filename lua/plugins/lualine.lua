@@ -4,60 +4,78 @@ return {
     opts = function(_, opts)
       local custom_theme = {
         normal = {
-          a = { fg = "#ffffff", bg = "#30343c", gui = "bold" },
-          b = { fg = "#ffffff", bg = "#30343c" },
-          c = { fg = "#ffffff", bg = "#30343c" },
+          a = { fg = "#0d1117", bg = "#58a6ff", gui = "bold" }, -- blue
+          b = { fg = "#c9d1d9", bg = "#161b22" },
+          c = { fg = "#c9d1d9", bg = "#21262d" },
         },
         insert = {
-          a = { fg = "#ffffff", bg = "#30343c", gui = "bold" },
-          b = { fg = "#ffffff", bg = "#30343c" },
-          c = { fg = "#ffffff", bg = "#30343c" },
+          a = { fg = "#0d1117", bg = "#3fb950", gui = "bold" }, -- green
+          b = { fg = "#c9d1d9", bg = "#161b22" },
+          c = { fg = "#c9d1d9", bg = "#21262d" },
         },
         visual = {
-          a = { fg = "#ffffff", bg = "#30343c", gui = "bold" },
-          b = { fg = "#ffffff", bg = "#30343c" },
-          c = { fg = "#ffffff", bg = "#30343c" },
+          a = { fg = "#0d1117", bg = "#d2a8ff", gui = "bold" }, -- purple
+          b = { fg = "#c9d1d9", bg = "#161b22" },
+          c = { fg = "#c9d1d9", bg = "#21262d" },
         },
         replace = {
-          a = { fg = "#ffffff", bg = "#30343c", gui = "bold" },
-          b = { fg = "#ffffff", bg = "#30343c" },
-          c = { fg = "#ffffff", bg = "#30343c" },
+          a = { fg = "#0d1117", bg = "#f85149", gui = "bold" }, -- red
+          b = { fg = "#c9d1d9", bg = "#21262d" },
+          c = { fg = "#c9d1d9", bg = "#161b22" },
+        },
+        command = {
+          a = { fg = "#0d1117", bg = "#f2cc60", gui = "bold" }, -- yellow
+          b = { fg = "#c9d1d9", bg = "#21262d" },
+          c = { fg = "#c9d1d9", bg = "#161b22" },
         },
         inactive = {
-          a = { fg = "#ffffff", bg = "#30343c" },
-          b = { fg = "#ffffff", bg = "#30343c" },
-          c = { fg = "#ffffff", bg = "#30343c" },
+          a = { fg = "#8b949e", bg = "#0d1117" },
+          b = { fg = "#8b949e", bg = "#0d1117" },
+          c = { fg = "#8b949e", bg = "#0d1117" },
         },
       }
 
-      -- Modify just the theme while preserving the rest
       opts.options.theme = custom_theme
-
       opts.options.globalstatus = true
-      opts.options.section_separators = { left = "", right = "" }
-      opts.options.component_separators = { left = "│", right = "│" }
+      opts.options.section_separators = { left = "", right = "" }
+      opts.options.component_separators = { left = "|", right = "|" }
 
       opts.sections.lualine_a = { "mode" }
-      opts.sections.lualine_b = { "branch", "diff", "diagnostics" }
-      opts.sections.lualine_c = { "filename" }
-      opts.sections.lualine_x = { "encoding", "filetype" }
 
-      -- added costum macro_component, lualine dont support it
+      opts.sections.lualine_b = {
+        { "branch", icon = "" },
+        { "diff", symbols = { added = "+", modified = "~", removed = "-" } },
+        "diagnostics",
+      }
+
+      opts.sections.lualine_c = {
+        {
+          "filename",
+          path = 1,
+          symbols = { modified = "●", readonly = "🔒", unnamed = "[No Name]" },
+        },
+      }
+
       local macro_component = {
         "macro",
         fmt = function()
           local reg = vim.fn.reg_recording()
           if reg ~= "" then
-            return "Recording @" .. reg
+            return "⏺ @" .. reg
           end
           return ""
         end,
-        color = { fg = "#ff9e64" },
+        color = { fg = "#f2cc60", gui = "bold" },
         draw_empty = false,
       }
 
-      -- ⬅️ Insert it at the start of lualine_x (or wherever you prefer)
-      table.insert(opts.sections.lualine_x, 1, macro_component)
+      opts.sections.lualine_x = {
+        macro_component,
+        "encoding",
+        { "fileformat", symbols = { unix = "LF", dos = "CRLF", mac = "CR" } },
+        "filetype",
+      }
+
       opts.sections.lualine_y = { "progress" }
       opts.sections.lualine_z = { "location" }
     end,
