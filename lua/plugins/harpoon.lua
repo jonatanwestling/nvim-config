@@ -26,9 +26,9 @@ return {
         :find()
     end
 
-    -- Mark current file
+    -- Mark current file, if maximum replace first_item
     vim.keymap.set("n", "<leader>h", function()
-      if harpoon:list():length() >= 4 then
+      if harpoon:list():length() >= 5 then
         local first_item = harpoon:list():get(1)
         harpoon:list():remove(first_item)
       end
@@ -40,19 +40,13 @@ return {
       toggle_telescope(harpoon:list())
     end, { desc = "Harpoon menu" })
 
-    -- Quick navigation
-    vim.keymap.set("n", "<leader>1", function()
-      harpoon:list():select(1)
-    end, { desc = "Harpoon to 1" })
-    vim.keymap.set("n", "<leader>2", function()
-      harpoon:list():select(2)
-    end, { desc = "Harpoon to 2" })
-    vim.keymap.set("n", "<leader>3", function()
-      harpoon:list():select(3)
-    end, { desc = "Harpoon to 3" })
-    vim.keymap.set("n", "<leader>4", function()
-      harpoon:list():select(4)
-    end, { desc = "Harpoon to 4" })
+    -- Quick navigation, limited to 5 files
+    for i = 1, 5 do
+      vim.keymap.set("n", "<leader>" .. i, function()
+        harpoon:list():select(i)
+      end, { desc = "Harpoon to " .. i })
+    end
+
     vim.keymap.set("n", "<leader>z", function()
       harpoon:list():clear()
     end, { desc = "Harpoon clear" })
