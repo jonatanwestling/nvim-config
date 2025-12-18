@@ -2,40 +2,7 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     opts = function(_, opts)
-      local custom_theme = {
-        normal = {
-          a = { fg = "#0d1117", bg = "#58a6ff", gui = "bold" }, -- blue
-          b = { fg = "#c9d1d9", bg = "#161b22" },
-          c = { fg = "#c9d1d9", bg = "#21262d" },
-        },
-        insert = {
-          a = { fg = "#0d1117", bg = "#3fb950", gui = "bold" }, -- green
-          b = { fg = "#c9d1d9", bg = "#161b22" },
-          c = { fg = "#c9d1d9", bg = "#21262d" },
-        },
-        visual = {
-          a = { fg = "#0d1117", bg = "#d2a8ff", gui = "bold" }, -- purple
-          b = { fg = "#c9d1d9", bg = "#161b22" },
-          c = { fg = "#c9d1d9", bg = "#21262d" },
-        },
-        replace = {
-          a = { fg = "#0d1117", bg = "#f85149", gui = "bold" }, -- red
-          b = { fg = "#c9d1d9", bg = "#21262d" },
-          c = { fg = "#c9d1d9", bg = "#161b22" },
-        },
-        command = {
-          a = { fg = "#0d1117", bg = "#f2cc60", gui = "bold" }, -- yellow
-          b = { fg = "#c9d1d9", bg = "#21262d" },
-          c = { fg = "#c9d1d9", bg = "#161b22" },
-        },
-        inactive = {
-          a = { fg = "#8b949e", bg = "#0d1117" },
-          b = { fg = "#8b949e", bg = "#0d1117" },
-          c = { fg = "#8b949e", bg = "#0d1117" },
-        },
-      }
-
-      opts.options.theme = custom_theme
+      opts.options.theme = "auto"
       opts.options.globalstatus = true
       opts.options.section_separators = { left = "", right = "" }
       opts.options.component_separators = { left = "", right = "" }
